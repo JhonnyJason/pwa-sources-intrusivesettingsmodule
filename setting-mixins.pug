@@ -1,0 +1,32 @@
+mixin settings-button(name, title, icon)
+    - var id = "settingsbutton-"+name
+    .settings-entry.click-button.icon-entry(id=id)
+        .icon: svg: use(href=icon)
+        .text=title
+        .arrow: svg: use(href="#svg-chevron-right-icon") 
+
+mixin settings-group(title)
+    .grouping-head=title
+    .settings-group 
+        block
+
+mixin settings-page(name, title)
+    - var id = "settingspage-"+name 
+    .settingspage(id=id)
+        .settingspage-top
+            .settingspage-title=title
+            .settingspage-backbutton.click-button 
+                svg: use(href="#svg-chevron-left-icon")
+        .settingspage-content
+            block
+
+mixin header(title)
+
+    header
+        #head-text=title
+        #settings-button.click-button: svg: use(href="#svg-settings-icon")
+        #settings-text Settings
+
+    //- Button to switch settings off
+    #settingsoff
+        #settingsoff-button.click-button: svg: use(href="#svg-cross-icon")
