@@ -18,11 +18,11 @@ export initialize = ->
     settingsoffButton.addEventListener("click", settingsoffButtonClicked)
     
     #specific settings
-    settingsButtons = document.getElementsByClassName("settings-entry")
-    for b in settingsButtons
-        id = b.id.replace("settingsbutton-", "settingspage-")
+    settingsEntries = document.getElementsByClassName("settings-entry")
+    for entry in settingsEntries
+        id = entry.id.replace("settingsentry-", "settingspage-")
         fun = createShowSettingsFunctionFor(id)
-        b.addEventListener("click", fun)
+        entry.addEventListener("click", fun)
     
     #Implement or Remove :-)
     backButtons = document.getElementsByClassName("settingspage-backbutton")

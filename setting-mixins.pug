@@ -1,15 +1,21 @@
-mixin settings-button(name, title, icon)
-    - var id = "settingsbutton-"+name
+//- ===============================================================
+//- Settings Button Mixin =========================================
+mixin settings-entry(name, title, icon)
+    - var id = "settingsentry-"+name
     .settings-entry.click-button.icon-entry(id=id)
         .icon: svg: use(href=icon)
         .text=title
         .arrow: svg: use(href="#svg-chevron-right-icon") 
 
+//- ===============================================================
+//- Settings Button Mixin =========================================
 mixin settings-group(title)
     .grouping-head=title
     .settings-group 
         block
 
+//- ===============================================================
+//- Settings Button Mixin =========================================
 mixin settings-page(name, title)
     - var id = "settingspage-"+name 
     .settingspage(id=id)
@@ -20,6 +26,8 @@ mixin settings-page(name, title)
         .settingspage-content
             block
 
+//- ===============================================================
+//- Settings Button Mixin =========================================
 mixin header(title)
 
     header
