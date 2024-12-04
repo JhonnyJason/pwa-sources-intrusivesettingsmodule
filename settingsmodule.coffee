@@ -5,11 +5,19 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as triggers from "./navtriggers.js"
+
+############################################################
 settingsButton = document.getElementById("settings-button")
 settingsoffButton = document.getElementById("settingsoff-button")
 
 ############################################################
 currentlyShownSettingspage = null
+
+settingsTrigger = {
+    account: triggers.settingsAccount
+    backend: triggers.settingsBackend
+}
 
 ############################################################
 export initialize = ->
@@ -32,29 +40,61 @@ export initialize = ->
 ############################################################
 #region eventListeners
 settingsButtonClicked = ->
-    settingsButton.classList.add("on")
-    document.body.classList.add("settings")
+    triggers.settingsOn()
+    return
 
 settingsoffButtonClicked = ->
-    document.body.classList.remove("settings") 
+    triggers.back()
     return
 
 ############################################################
 createShowSettingsFunctionFor = (id) ->
     page = document.getElementById(id)
     return () -> showSettingsPage(page)
+
 showSettingsPage = (page) ->
-    currentlyShownSettingspage = page
-    currentlyShownSettingspage.classList.add("here")
+    id = page.id.replace("settingspage-", "")
+    log "showSettingsPage #{id}"
+
+    if settingsTrigger[id]? then return settingsTrigger[id]()
+    log "settingsTrigger was not defined!"
+    # currentlyShownSettingspage = page
+    # currentlyShownSettingspage.classList.add("here")
+    return
+
+hideCurrentSettingsPage = ->
+    return unless currentlyShownSettingspage?
+    currentlyShownSettingspage.classList.remove("here")
+    currentlyShownSettingspage = null
     return
 
 ############################################################
 settingsBackButtonClicked = ->
-    return unless currentlyShownSettingspage?
-    currentlyShownSettingspage.classList.remove("here")
-    currentlyShownSettingspage = null
-    # document.body.classList.remove("away")
-    # mainframe.classList.remove("zoomed-out")
+    triggers.back()
     return
 
 #endregion
+
+############################################################
+export switchSettingsOn = (pageId) ->
+    log "switchSettingsOn"
+    settingsButton.classList.add("on")
+    document.body.classList.add("settings")
+
+    hideCurrentSettingsPage()
+
+    if pageId?
+        page = document.getElementById("settingspage-#{pageId}")
+        currentlyShownSettingspage = page
+        currentlyShownSettingspage.classList.add("here")
+
+    return
+
+############################################################
+export switchSettingsOff = ->
+    log "switchSettingsOff"
+    document.body.classList.remove("settings") 
+    settingsButton.classList.remove("on")
+
+    hideCurrentSettingsPage()
+    return
